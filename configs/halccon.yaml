@@ -1,0 +1,50 @@
+model_name: halccon_multiclass_ieee_baseline
+
+architecture:
+  input_dim: null
+  num_classes: 13
+  in_channels: 1
+
+  conv_blocks:
+    channels: [64, 128, 256]
+    kernel_sizes: [3, 5, 5]
+    strides: [1, 1, 1]
+    paddings: ["same", "same", "same"]
+    activations: ["relu", "relu", "relu"]
+
+  pooling:
+    enabled: true
+    types: ["max", "max", "max"]
+    kernel_sizes: [4, 2, 2]
+
+  batch_norm:
+    enabled: true
+
+  attention:
+    enabled: true
+    type: hierarchical_singlehead
+    activation: tanh
+    placement: post_pool_post_bn
+    dims:
+      attention1: "64 * (input_dim // 4)"
+      attention2: "128 * (input_dim // 8)"
+      attention3: "256 * (input_dim // 16)"
+
+  classifier:
+    flatten: true
+    fc_in_features: 256
+    fc_out_features: 13
+
+loss:
+  name: eqlv2
+  params:
+    gamma: 12.0
+    mu: 0.3
+    alpha: 2.0
+    loss_weight: 1.0
+    vis_grad: false
+
+notes:
+  source: modelo_halccon_multiclass_ieee.ipynb
+  optimizer_in_notebook: adam
+  learning_rate_in_notebook: 0.0005

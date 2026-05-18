@@ -1,0 +1,54 @@
+train_name: halccon_multiclass_ieee_default
+
+runtime:
+  device: cuda
+  mixed_precision: false
+  compile_model: false
+
+reproducibility:
+  seed: 42
+  deterministic: true
+  benchmark: false
+
+training:
+  epochs: 10
+  early_stopping: false
+  early_stopping_patience: null
+  gradient_clipping: null
+
+optimizer:
+  name: adam
+  lr: 0.0005
+  weight_decay: 0.0
+
+scheduler:
+  enabled: false
+  name: null
+  params: {}
+
+dataloader:
+  batch_size: 256
+  num_workers: 4
+  pin_memory: true
+  drop_last: false
+  preprocessing_variant: catboost_label
+
+checkpoint:
+  save_best: true
+  save_last: true
+  monitor: val_loss
+  mode: min
+
+metrics:
+  primary_metric: macro_f1
+  additional_metrics:
+    - accuracy
+    - precision_macro
+    - recall_macro
+    - f1_macro
+    - f1_weighted
+
+logging:
+  log_every_n_steps: 10
+  save_train_history: true
+  save_val_history: true

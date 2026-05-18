@@ -1,0 +1,88 @@
+study:
+  name: halccon_multiclass_optuna
+  direction: maximize
+  metric: f1_macro
+  n_trials: 50
+  timeout_seconds: null
+  seed: 42
+
+sampler:
+  name: tpe
+  params:
+    multivariate: true
+    group: false
+    seed: 42
+
+pruner:
+  enabled: true
+  name: median
+  params:
+    n_startup_trials: 10
+    n_warmup_steps: 5
+    interval_steps: 1
+
+search_space:
+  optimizer:
+    lr:
+      type: float
+      low: 0.0001
+      high: 0.005
+      log: true
+
+    weight_decay:
+      type: categorical
+      choices: [0.0, 0.000001, 0.00001, 0.0001]
+
+  dataloader:
+    batch_size:
+      type: categorical
+      choices: [64, 128, 256, 512]
+
+  model:
+    conv_blocks:
+      kernel_sizes:
+        type: categorical
+        choices:
+          - [3, 5, 5]
+          - [3, 3, 3]
+          - [5, 5, 5]
+
+    classifier:
+      dropout:
+        type: categorical
+        choices: [0.0, 0.1, 0.2, 0.3]
+
+  loss:
+    eqlv2:
+      gamma:
+        type: categorical
+        choices: [8.0, 10.0, 12.0, 14.0]
+
+      mu:
+        type: categorical
+        choices: [0.2, 0.3, 0.4, 0.5]
+
+      alpha:
+        type: categorical
+        choices: [1.0, 2.0, 3.0, 4.0]
+
+objective:
+  metric: f1_macro
+  split: val
+  save_best_config: true
+  save_best_checkpoint: true
+
+storage:
+  backend: sqlite
+  path: 06_experiments/optuna/halccon_multiclass_optuna.db
+
+artifacts:
+  save_trials_dataframe: true
+  save_optimization_history: true
+  save_param_importances: true
+  save_best_params_json: true
+  output_dir: 06_experiments/optuna/results
+
+notes:
+  baseline_reference: 01_configs/model/halccon.yaml
+  experiment_reference: 01_configs/experiment/exp_litnet_multiclass.yaml

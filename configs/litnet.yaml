@@ -1,0 +1,133 @@
+dataset_name: litnet_10pct_ieee
+preprocess_mode: clean
+paths:
+  source_csv: 02_data/raw/litnet_10pct.csv
+  interim_dir: 02_data/interim/litnet_10pct
+  processed_dir: 02_data/processed/litnet_10pct
+  splits_dir: 02_data/split/litnet_10pct
+
+target:
+  column: attack_t
+  task: multiclass
+
+sampling:
+  enabled: false
+  method: precomputed_stratified_sample
+  sample_fraction: 0.10
+  random_seed: 42
+  evidence_from_notebook: true
+
+split:
+  strategy: stratified
+  train_size: 0.70
+  val_size: 0.15
+  test_size: 0.15
+  random_seed: 42
+  save_indices: true
+  save_split_csv: true
+
+encoding_variants:
+  catboost_label:
+    enabled: true
+    categorical_encoding: catboost
+    target_encoding_for_labels: label_encoder
+    save_tensors: true
+
+  label_encoding:
+    enabled: true
+    categorical_encoding: label_encoder
+    target_encoding_for_labels: label_encoder
+    save_tensors: true
+
+features:
+  drop_columns:
+    - ID
+    - attack_a
+    - timestamp
+    - timestamp2
+
+    - ts_year
+    - ts_month
+    - ts_day
+    - ts_hour
+    - ts_min
+    - ts_second
+
+    - te_year
+    - te_month
+    - te_day
+    - te_hour
+    - te_min
+    - te_second
+
+    - fwd
+    - opkt
+    - obyt
+    - smk
+    - dmk
+    - dtos
+    - _dir
+    - svln
+    - dvln
+    - cl
+    - sl
+    - al
+
+    - nh
+    - nhb
+    - ismc
+    - odmc
+    - idmc
+    - osmc
+
+    - mpls1
+    - mpls2
+    - mpls3
+    - mpls4
+    - mpls5
+    - mpls6
+    - mpls7
+    - mpls8
+    - mpls9
+    - mpls10
+
+    - ra
+    - eng
+    - tr
+
+    - icmp_src_ip
+    - icmp_dst_ip_b
+
+    - tcp_f_s
+    - tcp_f_n_a
+    - tcp_f_n_f
+    - tcp_f_n_r
+    - tcp_f_n_p
+    - tcp_f_n_u
+
+    - tcp_dst_p
+    - tcp_src_dst_f_s
+    - tcp_src_tftp
+    - tcp_src_kerb
+    - tcp_src_rpc
+    - tcp_dst_p_src
+
+    - smtp_dst
+    - udp_dst_p
+    - udp_p_r_range
+    - p_range_dst
+    - udp_src_p_0
+
+  categorical_columns: []
+  numerical_columns: []
+
+artifacts:
+  save_feature_list: true
+  save_label_mapping: true
+  save_encoder_objects: true
+
+ 
+
+notes:
+  role: official_dataset_for_ieee_reproducibility
+  distribution_equivalence_verified_in_notebook: true

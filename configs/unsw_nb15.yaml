@@ -1,0 +1,101 @@
+dataset_name: unsw_nb15
+preprocess_mode: clean
+
+paths:
+  source_train_csv: 02_data/raw/data_unsw-nb15/UNSW_NB15_training-set.csv
+  source_test_csv: 02_data/raw/data_unsw-nb15/UNSW_NB15_testing-set.csv
+  interim_dir: 02_data/interim/unsw_nb15
+  processed_dir: 02_data/processed/unsw_nb15
+  splits_dir: 02_data/split/unsw_nb15
+
+target:
+  column: attack_cat
+  task: multiclass
+
+sampling:
+  enabled: false
+  method: none
+  random_seed: 42
+  evidence_from_notebook: false
+
+split:
+  strategy: official_train_test_with_internal_val
+  train_size_within_official_train: 0.85
+  random_seed: 42
+  stratify: true
+  save_indices: true
+  save_split_csv: true
+
+encoding_variants:
+  catboost_label:
+    enabled: true
+    categorical_encoding: catboost
+    target_encoding_for_labels: label_encoder
+    save_tensors: true
+
+  label_encoding:
+    enabled: true
+    categorical_encoding: label_encoder
+    target_encoding_for_labels: label_encoder
+    save_tensors: true
+
+features:
+  drop_columns:
+    - id
+    - label
+
+  categorical_columns:
+    - proto
+    - state
+    - service
+
+  numerical_columns:
+    - dur
+    - spkts
+    - dpkts
+    - sbytes
+    - dbytes
+    - rate
+    - sttl
+    - dttl
+    - sload
+    - dload
+    - sloss
+    - dloss
+    - sinpkt
+    - dinpkt
+    - sjit
+    - djit
+    - swin
+    - stcpb
+    - dtcpb
+    - dwin
+    - tcprtt
+    - synack
+    - ackdat
+    - smean
+    - dmean
+    - trans_depth
+    - response_body_len
+    - ct_srv_src
+    - ct_state_ttl
+    - ct_dst_ltm
+    - ct_src_dport_ltm
+    - ct_dst_sport_ltm
+    - ct_dst_src_ltm
+    - is_ftp_login
+    - ct_ftp_cmd
+    - ct_flw_http_mthd
+    - ct_src_ltm
+    - ct_srv_dst
+    - is_sm_ips_ports
+
+artifacts:
+  save_feature_list: true
+  save_label_mapping: true
+  save_encoder_objects: true
+
+notes:
+  role: external_validation_for_ieee_revision
+  official_unsw_split_used: true
+  preserve_halccon_multiclass_pipeline: true
