@@ -1,0 +1,6 @@
+{
+  "n_train": 2772249,
+  "n_val": 594054,
+  "n_test": 594054,
+  "target_column": "attack_t"
+}
