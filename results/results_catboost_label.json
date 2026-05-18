@@ -1,0 +1,5 @@
+{
+    "variant": "catboost_label",
+    "final_val_accuracy": 0.9033606372484656,
+    "best_val_accuracy": 0.9186706932366417
+}

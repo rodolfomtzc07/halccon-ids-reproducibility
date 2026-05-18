@@ -1,0 +1,5 @@
+{
+    "variant": "label_encoding",
+    "final_val_accuracy": 0.9116645961478249,
+    "best_val_accuracy": 0.9145751059667976
+}

@@ -1,0 +1,6 @@
+{
+    "variant": "label_encoding",
+    "model": "cnn_basic",
+    "final_val_accuracy": 0.9347769731371223,
+    "best_val_accuracy": 0.9347769731371223
+}

@@ -1,0 +1,6 @@
+{
+    "variant": "catboost_label",
+    "model": "cnn_basic",
+    "final_val_accuracy": 0.9076885266322591,
+    "best_val_accuracy": 0.926845034289812
+}
