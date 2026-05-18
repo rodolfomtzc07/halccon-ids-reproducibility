@@ -24,7 +24,7 @@ This repository contains the code required to reproduce the main experiments rep
 - `notebooks/archive/`: archived exploratory notebooks
 
 ## Environment
-- Python 3.12
+- Python 3.10
 - PyTorch 2.3.0+cu118
 
 ## Reproducibility note
