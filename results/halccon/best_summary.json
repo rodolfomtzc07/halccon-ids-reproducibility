@@ -1,0 +1,6 @@
+{
+  "best_metric_name": "val_loss",
+  "best_metric_value": 0.0014378369297995588,
+  "mode": "min",
+  "epochs": 10
+}
