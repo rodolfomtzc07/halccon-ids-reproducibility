@@ -1,0 +1,45 @@
+name: halccon
+
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+
+dependencies:
+  - python=3.10
+
+  # PyTorch GPU
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=12.1
+
+  # Ciencia de datos
+  - numpy
+  - pandas
+  - scikit-learn
+  - scipy
+
+  # Encoding
+  - category_encoders
+
+  # Utilidades
+  - tqdm
+  - pyyaml
+  - joblib
+
+  # Visualización (opcional pero útil)
+  - matplotlib
+  - seaborn
+
+  # Optuna
+  - optuna
+
+  # Logging / experimentos
+  - mlflow
+
+  # Desarrollo
+  - pip
+
+  - pip:
+      - ipykernel
