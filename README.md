@@ -20,9 +20,9 @@ Reproducibility code and experiments for H.A.L.C.CO.N, a hierarchical attention-
 
 ## Overview
 
-This repository contains the code and supporting materials required to reproduce the main experiments reported in the final accepted version of the paper.
+This repository contains the code, configuration files, preprocessing artifacts, split definitions, and experimental outputs required to reproduce the main results reported in the final accepted version of the paper.
 
-The repository is intended to support the reproducibility of the following components:
+The repository supports the reproduction of the following components:
 
 - Main multiclass evaluation on **LITNET-2020**
 - **Stratified 5-fold cross-validation**
@@ -33,39 +33,122 @@ The repository is intended to support the reproducibility of the following compo
 
 ## Repository Structure
 
-### `src/`
-Core implementation of the methodology reported in the paper. This folder contains the main modules for preprocessing, model definition, loss implementation, training, evaluation, and auxiliary utilities.
+### `01_configs/`
+Configuration files for the reproducibility workflow.
 
-### `scripts/`
-Executable scripts used as entry points for the reproducibility workflow. These scripts are intended to run the main experiments and generate the reported outputs.
+- `01_configs/data/`  
+  Dataset-specific configuration files for **LITNET-2020**, **UNSW-NB15**, and other supported datasets.
+- `01_configs/model/`  
+  Model architecture definitions and model-specific YAML configuration files, including H.A.L.C.CO.N and CANET-related settings.
+- `01_configs/train/`  
+  Training configuration files, including default settings and experiment-specific training definitions.
+- `01_configs/hpo/`  
+  Hyperparameter optimization settings, including the Optuna configuration used in the study.
 
-### `configs/`
-Configuration files defining the parameters for preprocessing, training, evaluation, ablation experiments, and cross-dataset validation.
+### `02_data/`
+Data organization for raw, processed, and split metadata.
 
-### `data/`
-Documentation and metadata related to dataset organization. This folder includes instructions for dataset placement, split metadata in JSON format, and attack distribution summaries for train, validation, and test partitions.
+- `02_data/raw/`  
+  Raw input data and source dataset files, including LITNET-2020 and UNSW-NB15 source files.
+- `02_data/processed/`  
+  Processed tensors, encoders, label mappings, feature lists, preprocessing metadata, and scaled datasets generated during preprocessing.
+- `02_data/split/`  
+  Train, validation, and test split definitions for LITNET-2020 and UNSW-NB15, including split summaries and class-distribution files.
 
-### `results/`
-Generated outputs, logs, tables, figures, and example artifacts associated with the experiments reported in the paper.
+### `03_notebook/`
+Archived notebooks used during exploratory development, preprocessing audits, and intermediate experimentation. These notebooks are included for reference only and are not the primary reproducibility workflow for the final accepted manuscript.
 
-### `notebooks/archive/`
-Archived exploratory notebooks kept only for reference. These notebooks are not the official reproducibility workflow for the final accepted manuscript.
+### `05_scripts/`
+Main executable scripts for preprocessing, split creation, experiment execution, and model testing.
+
+Key scripts include:
+- `create_splits.py`  
+  Generates train, validation, and test partitions and corresponding metadata.
+- `preprocess_variant.py`  
+  Runs preprocessing variants, including encoding and tensor preparation.
+- `run_experiment.py`  
+  Main script for launching configured experiments.
+- `halccontest.py`  
+  Testing/evaluation script for H.A.L.C.CO.N variants.
+
+### `06_experiments/`
+Saved experimental outputs corresponding to the results reported in the paper.
+
+This folder includes:
+- trained checkpoints (`best.ckpt`, `last.ckpt`)
+- summary files (`best_summary.json`, `results_summary.json`)
+- training histories (`train_history.csv`, `history.csv`)
+- confusion matrices
+- per-class metrics
+- classification reports
+- Optuna trial outputs
+- 5-fold cross-validation outputs
+- ablation experiment results
+- UNSW-NB15 cross-dataset evaluation outputs
+
+### `07_runs/`
+Execution run artifacts and intermediate run folders.
+
+### `08_reports/`
+Report-oriented outputs and supporting documentation for experiments.
+
+### `09_tests/`
+Testing-related files for repository validation and experimental checks.
 
 ## Main Reproducibility Workflow
 
-The official reproducibility workflow in this repository is **script-based** and aligned with the final accepted manuscript.
+The official reproducibility workflow is script-based and aligned with the final accepted manuscript.
 
 A typical execution order is:
 
-1. Obtain the required datasets
-2. Place the datasets in the expected local directories
-3. Run preprocessing
-4. Train the main H.A.L.C.CO.N model on LITNET-2020
-5. Evaluate the trained model on the LITNET-2020 test set
-6. Run stratified 5-fold cross-validation
-7. Run the ablation experiments
-8. Run the EQLv2 sensitivity experiments
-9. Run the cross-dataset evaluation on UNSW-NB15
+1. Prepare dataset paths and raw files in `02_data/raw/`
+2. Generate dataset splits using `05_scripts/create_splits.py`
+3. Run preprocessing using `05_scripts/preprocess_variant.py`
+4. Execute the main LITNET-2020 experiment using `05_scripts/run_experiment.py`
+5. Evaluate the main model outputs
+6. Reproduce the ablation experiments from the corresponding experiment folders in `06_experiments/`
+7. Reproduce the stratified 5-fold cross-validation results
+8. Reproduce the EQLv2 hyperparameter optimization and sensitivity analysis
+9. Reproduce the cross-dataset evaluation on UNSW-NB15
+
+## File-by-File Reproducibility Notes
+
+### Main configuration files
+- `01_configs/data/litnet.yaml`: configuration for the LITNET-2020 dataset
+- `01_configs/data/unsw_nb15.yaml`: configuration for the UNSW-NB15 dataset
+- `01_configs/model/halccon.yaml`: main H.A.L.C.CO.N architecture configuration
+- `01_configs/model/canet.yaml`: CANET-related reference configuration
+- `01_configs/train/default.yaml`: default training configuration
+- `01_configs/train/exp_litnet_multiclass.yaml`: training configuration for the main LITNET multiclass experiment
+- `01_configs/hpo/halccon_optuna.yaml`: Optuna-based hyperparameter search configuration
+
+### Main scripts
+- `05_scripts/create_splits.py`: generates train/validation/test splits and related summaries
+- `05_scripts/preprocess_variant.py`: preprocesses data and produces encoded/scaled tensors and metadata
+- `05_scripts/run_experiment.py`: executes experiment pipelines based on configuration files
+- `05_scripts/halccontest.py`: evaluates trained models and generates metrics/reports
+
+### Main processed data artifacts
+Each processed-data folder may contain:
+- `feature_encoder.joblib`
+- `label_encoder.joblib`
+- `feature_list.csv`
+- `label_mapping.csv`
+- `preprocess_metadata.json`
+- `X_train.pt`, `X_val.pt`, `X_test.pt`
+- `y_train.pt`, `y_val.pt`, `y_test.pt`
+
+### Main experimental output artifacts
+Each experiment folder may contain:
+- `best.ckpt`
+- `last.ckpt`
+- `best_summary.json`
+- `results_summary.json`
+- `classification_report.csv`
+- `confusion_matrix.csv`
+- `per_class_metrics.csv`
+- `train_history.csv`
+- `history.csv`
 
 ## Environment
 
@@ -76,9 +159,7 @@ Additional dependencies are listed in `requirements.txt`.
 
 ## Data
 
-The full datasets are **not included** in this repository.
-
-Users must obtain the datasets separately and place them in the expected local directories before running the pipeline.
+The original full datasets are not redistributed in this repository.
 
 ### Required datasets
 - **LITNET-2020**
@@ -86,18 +167,21 @@ Users must obtain the datasets separately and place them in the expected local d
 
 ### Included metadata
 This repository includes:
-
-- predefined dataset split files in **JSON format**
-- attack distribution summaries for **train**, **validation**, and **test** partitions
+- split summary files
+- train/validation/test split definitions
+- class-distribution summaries
+- preprocessing metadata
+- encoded feature metadata
+- label mappings
 
 These files are intended to facilitate reproducibility of the evaluation protocol.
 
 ## Reproducibility Notes
 
-This repository is intended to document the experimental workflow associated with the final accepted version of the paper. The main objective is to make the reported results easier to inspect, understand, and reproduce.
+This repository is intended to document the workflow and artifacts associated with the final accepted version of the paper. The primary goal is to make the reported experiments easier to inspect, understand, and reproduce.
 
-The archived notebooks are provided only as supplementary historical material. The official workflow for reproducibility is the script-based implementation included in this repository.
+The notebooks in `03_notebook/` are retained as archived exploratory material, while the official reproducibility path is based on the configuration files, scripts, processed artifacts, and experiment outputs included in the repository.
 
 ## Contact
 
-For questions regarding the repository or reproducibility details, please contact the authors through their institutional affiliation.
+For questions regarding this repository or reproducibility details, please contact the authors through their institutional affiliation.
