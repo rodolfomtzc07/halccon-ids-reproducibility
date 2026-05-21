@@ -47,7 +47,7 @@ To create the environment with conda:
 ```bash
 conda env create -f environment.yml
 conda activate halccon
-
+```
 Alternatively, with micromamba:
 
 ```bash
@@ -57,43 +57,43 @@ micromamba activate halccon
 
 ## Repository Structure
 
-### `01_configs/`
+### `configs/`
 
 Configuration files for the reproducibility workflow.
 
-* `01_configs/data/`
+* `configs/data/`
   Dataset-specific configuration files for LITNET-2020, UNSW-NB15, and other supported datasets.
-* `01_configs/model/`
+* `configs/model/`
   Model architecture definitions and YAML configuration files, including H.A.L.C.CO.N and CANET-related settings.
-* `01_configs/train/`
+* `configs/train/`
   Training configuration files, including default settings and experiment-specific definitions.
-* `01_configs/hpo/`
+* `configs/hpo/`
   Hyperparameter optimization settings, including the Optuna configuration used in the study.
-* `01_configs/logging/`
+* `configs/logging/`
   Logging-related configuration files.
 
-### `02_data/`
+### `data/`
 
 Data organization for raw, processed, and split metadata.
 
-* `02_data/raw/`
+* `data/raw/`
   Raw input data and source dataset files, including LITNET-2020 and UNSW-NB15 source files.
-* `02_data/processed/`
+* `data/processed/`
   Processed tensors, encoders, label mappings, feature lists, preprocessing metadata, and scaled datasets generated during preprocessing.
-* `02_data/split/`
+* `data/split/`
   Train, validation, and test split definitions for LITNET-2020 and UNSW-NB15, including split summaries and class-distribution files.
-* `02_data/interim/`
+* `data/interim/`
   Intermediate data artifacts generated during processing.
 
-### `03_notebook/`
+### `notebook/`
 
 Archived notebooks used during exploratory development, preprocessing audits, and intermediate experimentation. These notebooks are included for reference only and are not the primary reproducibility workflow for the final accepted manuscript.
 
-### `05_scripts/`
+### `scripts/`
 
 Main executable scripts for split creation, preprocessing, experiment execution, and model testing.
 
-### `06_experiments/`
+### `experiments/`
 
 Saved experimental outputs corresponding to the results reported in the paper.
 
@@ -111,15 +111,15 @@ This directory contains, depending on the experiment:
 * ablation experiment results
 * UNSW-NB15 cross-dataset evaluation outputs
 
-### `07_runs/`
+### `runs/`
 
 Run-related artifacts and execution folders.
 
-### `08_reports/`
+### `reports/`
 
 Generated reports and supporting experimental outputs.
 
-### `09_tests/`
+### `tests/`
 
 Testing-related files for repository validation and experiment checks.
 
@@ -127,24 +127,24 @@ Testing-related files for repository validation and experiment checks.
 
 | Script / File                      | Description                                                                                                |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `05_scripts/create_splits.py`      | Generates train, validation, and test splits and their corresponding metadata.                             |
-| `05_scripts/preprocess_variant.py` | Runs preprocessing, encoding, normalization, and tensor generation for the selected preprocessing variant. |
-| `05_scripts/run_experiment.py`     | Executes the main configured experiments for H.A.L.C.CO.N variants.                                        |
-| `05_scripts/halccontest.py`        | Evaluates trained models and generates result summaries, confusion matrices, and class-wise metrics.       |
+| `scripts/create_splits.py`      | Generates train, validation, and test splits and their corresponding metadata.                             |
+| `scripts/preprocess_variant.py` | Runs preprocessing, encoding, normalization, and tensor generation for the selected preprocessing variant. |
+| `scripts/run_experiment.py`     | Executes the main configured experiments for H.A.L.C.CO.N variants.                                        |
+| `scripts/halccontest.py`        | Evaluates trained models and generates result summaries, confusion matrices, and class-wise metrics.       |
 
 ## Main Configuration Files
 
 | Configuration File                            | Description                                                       |
 | --------------------------------------------- | ----------------------------------------------------------------- |
-| `01_configs/data/litnet.yaml`                 | Dataset configuration for the main LITNET-2020 experiment.        |
-| `01_configs/data/unsw_nb15.yaml`              | Dataset configuration for the UNSW-NB15 cross-dataset evaluation. |
-| `01_configs/data/ciciot2023.yaml`             | Additional dataset configuration included in the project.         |
-| `01_configs/model/halccon.yaml`               | Main H.A.L.C.CO.N architecture configuration.                     |
-| `01_configs/model/canet.yaml`                 | CANET-related reference configuration.                            |
-| `01_configs/model/architecture.py`            | Architecture-related implementation/configuration support.        |
-| `01_configs/train/default.yaml`               | Default training configuration.                                   |
-| `01_configs/train/exp_litnet_multiclass.yaml` | Training configuration for the main LITNET multiclass experiment. |
-| `01_configs/hpo/halccon_optuna.yaml`          | Optuna-based hyperparameter optimization configuration.           |
+| `configs/data/litnet.yaml`                 | Dataset configuration for the main LITNET-2020 experiment.        |
+| `configs/data/unsw_nb15.yaml`              | Dataset configuration for the UNSW-NB15 cross-dataset evaluation. |
+| `configs/data/ciciot2023.yaml`             | Additional dataset configuration included in the project.         |
+| `configs/model/halccon.yaml`               | Main H.A.L.C.CO.N architecture configuration.                     |
+| `configs/model/canet.yaml`                 | CANET-related reference configuration.                            |
+| `configs/model/architecture.py`            | Architecture-related implementation/configuration support.        |
+| `configs/train/default.yaml`               | Default training configuration.                                   |
+| `configs/train/exp_litnet_multiclass.yaml` | Training configuration for the main LITNET multiclass experiment. |
+| `configs/hpo/halccon_optuna.yaml`          | Optuna-based hyperparameter optimization configuration.           |
 
 ## Executing
 
@@ -163,10 +163,10 @@ A typical execution order is:
 Representative script usage:
 
 ```bash
-python 05_scripts/create_splits.py
-python 05_scripts/preprocess_variant.py
-python 05_scripts/run_experiment.py
-python 05_scripts/halccontest.py
+python scripts/create_splits.py
+python scripts/preprocess_variant.py
+python scripts/run_experiment.py
+python scripts/halccontest.py
 ```
 
 ## Data
@@ -202,7 +202,7 @@ Examples of included processed-data artifacts are:
 
 ## Experimental Outputs Included
 
-The `06_experiments/` directory contains saved artifacts for the main experiments, including:
+The `experiments/` directory contains saved artifacts for the main experiments, including:
 
 * `best.ckpt`
 * `last.ckpt`
