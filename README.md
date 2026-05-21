@@ -69,8 +69,7 @@ Configuration files for the reproducibility workflow.
   Training configuration files, including default settings and experiment-specific definitions.
 * `configs/hpo/`
   Hyperparameter optimization settings, including the Optuna configuration used in the study.
-* `configs/logging/`
-  Logging-related configuration files.
+
 
 ### `data/`
 
@@ -111,17 +110,6 @@ This directory contains, depending on the experiment:
 * ablation experiment results
 * UNSW-NB15 cross-dataset evaluation outputs
 
-### `runs/`
-
-Run-related artifacts and execution folders.
-
-### `reports/`
-
-Generated reports and supporting experimental outputs.
-
-### `tests/`
-
-Testing-related files for repository validation and experiment checks.
 
 ## Included Scripts
 
